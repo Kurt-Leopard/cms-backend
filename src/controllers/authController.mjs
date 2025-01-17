@@ -30,12 +30,12 @@ class authController {
         const accessToken = jwt.sign(
           { id: user.id, role: user.role },
           process.env.SECRET_KEY,
-          { expiresIn: "10h" }
+          { expiresIn: "1h" }
         );
         const refreshToken = jwt.sign(
           { id: user.id, role: user.role },
           process.env.SECRET_REFRESH_KEY,
-          { expiresIn: "7d" }
+          { expiresIn: "1h" }
         );
 
         res.cookie("accessToken", accessToken, { maxAge: 60000 });
@@ -74,6 +74,10 @@ class authController {
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
+  }
+
+  async verifyToken(req, res) {
+    res.json({ valid: true, message: "Authorized" });
   }
 }
 export default new authController();
